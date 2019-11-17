@@ -22,8 +22,12 @@ var getImageData = function(index, length, handler) {
     };
     console.log(index+':'+images[index]);
     request.get(img_request_options, function(error, response, body){
-        var buffer = new Buffer.from(body);
-        fs.writeFileSync(Config.query + '/' + Config.query + '_' + page + '_' + index + '.jpg', buffer, 'binary');
+        if(body != undefined) {
+            if(response.statusCode == 200) {
+                var buffer = new Buffer.from(body);
+                fs.writeFileSync(Config.query + '/' + Config.query + '_' + page + '_' + index + '.png', buffer, 'binary');
+            }
+        }
         getImageData(index+1, images.length, handler);
     });
 }
